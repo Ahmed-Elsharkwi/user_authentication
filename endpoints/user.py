@@ -203,7 +203,7 @@ def update_user_info():
 
 @app_views.route('/patient_info', strict_slashes=False, methods=['GET'])
 def get_patient_info():
-    """ get the user info using his id """
+    """ get the user info using his phone_number """
 
     jwt_token = request.cookies.get("user_token")
     data = None
