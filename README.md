@@ -35,7 +35,7 @@ The User API provides the following endpoints:
 **Response:**
 ```json
 {
-    "state": "success"
+    "state": "element is successfully added"
 }
 ```
 
@@ -87,13 +87,16 @@ Cookie: user_token=<JWT_TOKEN>
 **Request Body:**
 ```json
 {
-    "user_name": "new_username"
+    "user_name": "user_name",
+    "phone_number": "1234567890",
+    "first_name": "John",
+    "last_name": "Doe"
 }
 ```
 **Response:**
 ```json
 {
-    "state": "success"
+    "state": "the element is successfully updated"
 }
 ```
 
@@ -133,24 +136,8 @@ The User API provides the following endpoints:
 4. `/new_user_info`: Update the user's information.
 5. `/patient_info`: Get a patient's information.
 
-Each endpoint has specific request and response formats, as described in the "Usage" section.
 
 # File API
-
-## Installation
-
-To use the File API, you'll need to have the following dependencies installed:
-
-- Flask
-- datetime
-- uuid
-- json
-
-You can install these dependencies using pip:
-
-```
-pip install flask datetime uuid json
-```
 
 ## Usage
 
@@ -166,12 +153,19 @@ Cookie: user_token=<JWT_TOKEN>
 **Request Body:**
 ```
 file: <file_data>
-result_date: 2023-05-01
+{
+    result_date: 2023-05-01,
+    phone_number: 012894789,
+    country_code: +20,
+    selected_lab_test: lab_1,
+    result_type: postive
+}
+    
 ```
 **Response:**
 ```json
 {
-    "state": "success"
+    "state": ""element is successfully added""
 }
 ```
 
@@ -247,7 +241,7 @@ Cookie: user_token=<JWT_TOKEN>
 **Response:**
 ```json
 {
-    "state": "success"
+    "state": "element is successfully updated"
 }
 ```
 
@@ -260,28 +254,7 @@ The File API provides the following endpoints:
 3. `/files_info`: Get information about all pending files.
 4. `/file_status`: Update the status of a file.
 
-Each endpoint has specific request and response formats, as described in the "Usage" section.
-
 # AI Chat API
-
-## Installation
-
-To use the AI Chat API, you'll need to have the following dependencies installed:
-
-- Flask
-- datetime
-- uuid
-- google.genai
-- PIL
-- pybase64
-- requests
-- json
-
-You can install these dependencies using pip:
-
-```
-pip install flask datetime uuid google.genai PIL pybase64 requests json
-```
 
 ## Usage
 
