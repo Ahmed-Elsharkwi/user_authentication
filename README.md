@@ -1,17 +1,22 @@
-# User API
-
-## Installation
-
-To use the User API, you'll need to have the following dependencies installed:
-
-- Flask
-- datetime
-- re
-
-You can install these dependencies using pip:
-
+## How to use:
+1- clone the repo
+```shell
+  git clone https://github.com/Ahmed-Elsharkwi/user_authentication.git
 ```
-pip install flask datetime re
+
+2- get inside the repo
+```shell
+  cd user_authentication
+```
+
+3- run the get-requirements file
+```shell
+  ./set_up_requirements.sh
+```
+
+4- run application_server
+```shell
+  python3 -m app
 ```
 
 ## Usage
