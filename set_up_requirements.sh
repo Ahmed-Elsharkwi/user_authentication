@@ -7,7 +7,7 @@ sudo systemctl start postgresql
 #set up database
 SQL_FILE="set_up_database.sql"
 if [ -f "$SQL_FILE" ]; then
-   sudo -u postgres psql -f setup.sql
+   sudo -u postgres psql -f $SQL_FILE
 else
     echo "SQL file not found: $SQL_FILE"
 fi
