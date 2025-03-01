@@ -165,7 +165,7 @@ file: <file_data>
 **Response:**
 ```json
 {
-    "state": ""element is successfully added""
+    "state": "element is successfully added"
 }
 ```
 
