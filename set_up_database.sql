@@ -1,3 +1,5 @@
+ALTER USER postgres PASSWORD 'Ahmede2*';
+
 -- Create the database
 CREATE DATABASE clinc_system;
 
