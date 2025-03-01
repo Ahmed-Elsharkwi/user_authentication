@@ -1,104 +1,319 @@
-# README
+# User API
 
 ## Installation
 
-To install and set up the project, follow these steps:
+To use the User API, you'll need to have the following dependencies installed:
 
-1. Clone the repository:
+- Flask
+- datetime
+- re
+
+You can install these dependencies using pip:
+
 ```
-git clone https://github.com/your-username/your-project.git
-```
-2. Navigate to the project directory:
-```
-cd your-project
-```
-3. Install the required dependencies:
-```
-pip install -r requirements.txt
+pip install flask datetime re
 ```
 
 ## Usage
 
-To use the application, follow these steps:
+The User API provides the following endpoints:
 
-1. Start the Flask server:
+### Create New User
+**Endpoint:** `/new_user`
+**Method:** POST
+**Request Body:**
+```json
+{
+    "user_name": "example_user",
+    "password": "ExamplePassword123!",
+    "role": "patient",
+    "phone_number": "1234567890",
+    "first_name": "John",
+    "last_name": "Doe"
+}
 ```
-python app.py
+**Response:**
+```json
+{
+    "state": "success"
+}
 ```
-2. Access the application in your web browser at `http://localhost:5000`.
+
+### Login
+**Endpoint:** `/login`
+**Method:** POST
+**Request Body:**
+```json
+{
+    "user_name": "example_user",
+    "password": "ExamplePassword123!",
+    "role": "patient"
+}
+```
+**Response:**
+```
+Set-Cookie: user_token=<JWT_TOKEN>
+```
+
+### Get User Info
+**Endpoint:** `/user_info`
+**Method:** GET
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Response:**
+```json
+{
+    "data": {
+        "user_id": 1,
+        "user_name": "example_user",
+        "password": "hashed_password",
+        "role": "patient",
+        "phone_number": "1234567890",
+        "first_name": "John",
+        "last_name": "Doe"
+    }
+}
+```
+
+### Update User Info
+**Endpoint:** `/new_user_info`
+**Method:** PATCH
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Request Body:**
+```json
+{
+    "user_name": "new_username"
+}
+```
+**Response:**
+```json
+{
+    "state": "success"
+}
+```
+
+### Get Patient Info
+**Endpoint:** `/patient_info`
+**Method:** GET
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Query Parameters:**
+```
+phone_number=1234567890
+```
+**Response:**
+```json
+{
+    "data": {
+        "user_id": 1,
+        "user_name": "example_user",
+        "password": "hashed_password",
+        "phone_number": "1234567890",
+        "first_name": "John",
+        "last_name": "Doe",
+        "role": "patient"
+    }
+}
+```
 
 ## API
 
-The application provides the following API endpoints:
+The User API provides the following endpoints:
 
-### `POST /new_user`
-- **Description:** Create a new user.
-- **Request Body:**
-  - `user_name` (string): The username of the new user.
-  - `password` (string): The password of the new user.
-  - `role` (string): The role of the new user (e.g., "admin", "doctor", "patient").
-  - `phone_number` (string, optional): The phone number of the new user (required for "patient" role).
-  - `first_name` (string, optional): The first name of the new user (required for "patient" role).
-  - `last_name` (string, optional): The last name of the new user (required for "patient" role).
-- **Response:**
-  - `200 OK`: The user was created successfully.
-  - `400 Bad Request`: The request body is missing required fields or the input is invalid.
+1. `/new_user`: Create a new user.
+2. `/login`: Log in a user and return a JWT token.
+3. `/user_info`: Get the user's information.
+4. `/new_user_info`: Update the user's information.
+5. `/patient_info`: Get a patient's information.
 
-### `POST /login`
-- **Description:** Log in a user and return a JWT token.
-- **Request Body:**
-  - `user_name` (string): The username of the user.
-  - `password` (string): The password of the user.
-  - `role` (string): The role of the user (e.g., "admin", "doctor", "patient").
-- **Response:**
-  - `200 OK`: The user was logged in successfully, and a JWT token is returned in the response cookie.
-  - `400 Bad Request`: The request body is missing required fields or the input is invalid.
-  - `401 Unauthorized`: The username or password is incorrect.
-  - `404 Not Found`: The user is not found.
+Each endpoint has specific request and response formats, as described in the "Usage" section.
 
-### `GET /user_info`
-- **Description:** Get the user's information.
-- **Request:** The JWT token is included in the request cookie.
-- **Response:**
-  - `200 OK`: The user's information is returned.
-  - `401 Unauthorized`: The user is not authenticated.
+# File API
 
-### `PATCH /new_user_info`
-- **Description:** Update the user's information.
-- **Request Body:** The updated user information.
-- **Request:** The JWT token is included in the request cookie.
-- **Response:**
-  - `200 OK`: The user's information was updated successfully.
-  - `401 Unauthorized`: The user is not authenticated.
+## Installation
 
-### `GET /patient_info`
-- **Description:** Get the patient's information.
-- **Request:** The JWT token is included in the request cookie, and the `phone_number` parameter is provided in the query string.
-- **Response:**
-  - `200 OK`: The patient's information is returned.
-  - `401 Unauthorized`: The user is not authenticated.
-  - `404 Not Found`: The patient's information is not found.
+To use the File API, you'll need to have the following dependencies installed:
 
-## Contributing
+- Flask
+- datetime
+- uuid
+- json
 
-To contribute to the project, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them.
-4. Push your changes to your forked repository.
-5. Submit a pull request to the main repository.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Testing
-
-To run the tests, execute the following command:
+You can install these dependencies using pip:
 
 ```
-python -m unittest discover tests
+pip install flask datetime uuid json
 ```
 
-This will run all the tests in the `tests` directory.
+## Usage
+
+The File API provides the following endpoints:
+
+### Create New File
+**Endpoint:** `/new_file`
+**Method:** POST
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Request Body:**
+```
+file: <file_data>
+result_date: 2023-05-01
+```
+**Response:**
+```json
+{
+    "state": "success"
+}
+```
+
+### Get File Info
+**Endpoint:** `/file_info`
+**Method:** GET
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Query Parameters:**
+```
+file_id=<file_id>
+```
+**Response:**
+```json
+{
+    "phone_number": "1234567890",
+    "country_code": "US",
+    "result_data": "2023-05-01",
+    "selected_lab_test": "COVID-19",
+    "result_type": "Positive",
+    "content": "File content",
+    "status": "pending"
+}
+```
+
+### Get All Pending Files
+**Endpoint:** `/files_info`
+**Method:** GET
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Response:**
+```json
+[
+    {
+        "phone_number": "1234567890",
+        "country_code": "US",
+        "result_data": "2023-05-01",
+        "selected_lab_test": "COVID-19",
+        "result_type": "Positive",
+        "content": "File content",
+        "status": "pending"
+    },
+    {
+        "phone_number": "0987654321",
+        "country_code": "CA",
+        "result_data": "2023-04-15",
+        "selected_lab_test": "Flu",
+        "result_type": "Negative",
+        "content": "File content",
+        "status": "pending"
+    }
+]
+```
+
+### Update File Status
+**Endpoint:** `/file_status`
+**Method:** PATCH
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Request Body:**
+```json
+{
+    "accept_file": "approved",
+    "file_id": "<file_id>"
+}
+```
+**Response:**
+```json
+{
+    "state": "success"
+}
+```
+
+## API
+
+The File API provides the following endpoints:
+
+1. `/new_file`: Create a new file for the user.
+2. `/file_info`: Get information about a specific file.
+3. `/files_info`: Get information about all pending files.
+4. `/file_status`: Update the status of a file.
+
+Each endpoint has specific request and response formats, as described in the "Usage" section.
+
+# AI Chat API
+
+## Installation
+
+To use the AI Chat API, you'll need to have the following dependencies installed:
+
+- Flask
+- datetime
+- uuid
+- google.genai
+- PIL
+- pybase64
+- requests
+- json
+
+You can install these dependencies using pip:
+
+```
+pip install flask datetime uuid google.genai PIL pybase64 requests json
+```
+
+## Usage
+
+The AI Chat API provides the following endpoint:
+
+### Create New Chat
+**Endpoint:** `/new_chat`
+**Method:** POST
+**Headers:**
+```
+Cookie: user_token=<JWT_TOKEN>
+```
+**Request Body:**
+```json
+{
+    "image": "<base64_encoded_image>",
+    "text": "Hello, Gemini!",
+    "file_id": "<file_id>"
+}
+```
+**Response:**
+```json
+{
+    "session_id": "<session_id>",
+    "message": "Hello! How can I assist you today?"
+}
+```
+
+## API
+
+The AI Chat API provides the following endpoint:
+
+1. `/new_chat`: Create a new chat session with Gemini, the AI assistant.
+
+The endpoint accepts an image (in base64 encoded format), text, and an optional file ID. It then generates a response from the Gemini AI model and returns the session ID and the response message.
