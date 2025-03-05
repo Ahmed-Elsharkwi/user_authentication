@@ -1,6 +1,6 @@
 """ ai chat api """
 from endpoints import app_views
-from models.connection import obj
+#from models.connection import obj
 from utils.create_jwt_token import verify_jwt
 from flask import jsonify, request, make_response
 from datetime import datetime, timedelta

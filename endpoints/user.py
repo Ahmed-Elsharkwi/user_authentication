@@ -1,7 +1,10 @@
 """ user api """
 from endpoints import app_views
 from models.connection import obj
+from models.user_model import Doctor_Admin
+from models.patient_model import Patient
 from utils.create_jwt_token import create_jwt, verify_jwt
+from utils.user_name_password_check import user_name_password_check
 from flask import jsonify, request, make_response
 from utils.hash_passwords import hash_password
 from datetime import datetime, timedelta
@@ -27,23 +30,20 @@ def create_new_user():
                     'last_name' not in user_data)):
 
                 return jsonify({"state": "Patient info is missing"}), 400
+    
+    respond = user_name_password_check(user_data['user_name'], user_data['password'])
+    
+    if respond is not None:
 
-    user_check = re.match(r'^[a-zA-Z0-9]{3,16}$', user_data['user_name'])
-    password_check = re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$", user_data['password'])
-
-    if user_check is None:
-        return jsonify({'state': 'Not a valid user_name'}), 400
-
-    if password_check is None:
-        return jsonify({'state': 'Not a valid password'}), 400
+        return jsonify({'state': respond}), 400
 
 
     if user_data['role'] == 'admin' or user_data['role'] == 'doctor':
-
+        Class = Doctor_Admin
         table = 'doctor_admin'
     
     elif user_data['role'] == 'patient':
-        
+        Class = Patient
         table = 'patient'
 
     else:
@@ -51,9 +51,9 @@ def create_new_user():
 
 
     if obj.get_element(table, [['user_name', user_data['user_name']]]) is None:
-        
-        result = obj.create_element(table, user_data)
-        obj.save_changes()
+        new_user = Class(user_data)
+        result = new_user.create_element(table)
+        new_user.save_changes()
         
         return jsonify({'state': result}), 200
 
@@ -73,14 +73,12 @@ def login_fun():
 
                 return jsonify({'state': 'bad_request'}), 400
         
-    user_check = re.match(r'^[a-zA-Z0-9]{3,16}$', user_data['user_name'])
-    password_check = re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$", user_data['password'])
+    respond = user_name_password_check(user_data['user_name'], user_data['password'])
 
-    if user_check is None:
-        return jsonify({'state': 'Not a valid user_name'}), 400
+    if respond is not None:
 
-    if password_check is None:
-        return jsonify({'state': 'Not a valid password'}), 400
+        return jsonify({'state': respond}), 400
+
 
     if user_data['role'] == 'admin' or user_data['role'] == 'doctor':
         

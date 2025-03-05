@@ -1,0 +1,5 @@
+database_user="postgres"
+database_password="Ahmede2*"
+database_host = "127.0.0.1"
+database_port = "5432"
+database_name = "clinc_system"

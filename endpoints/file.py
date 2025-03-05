@@ -1,5 +1,6 @@
 """ file api """
 from endpoints import app_views
+from models.file_model import File
 from models.connection import obj
 from utils.create_jwt_token import verify_jwt
 from flask import jsonify, request, make_response
@@ -45,9 +46,10 @@ def create_file():
 
     else:
         
-        file_data['patient'] = data['user_id']
+        file_data['patient_id'] = data['user_id']
     
-    result = obj.create_element('file', file_data)
+    new_file = File(file_data)
+    result = new_file.create_element('file')
 
     try:
         with open(file_data['file_path'], "wb") as f:
@@ -58,7 +60,7 @@ def create_file():
 
         print(f"file error: {e}")
 
-    obj.save_changes()
+    new_file.save_changes()
 
 
     return jsonify({'state': result}), 200

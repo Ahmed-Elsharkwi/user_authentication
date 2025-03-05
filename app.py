@@ -3,7 +3,6 @@
 
 from flask import Flask, make_response, jsonify, request, render_template, make_response
 from endpoints import app_views
-from models.connection import obj
 import re
 
 
