@@ -40,22 +40,3 @@ CREATE TABLE file (
     FOREIGN KEY (patient_id) REFERENCES patient(patient_id) ON DELETE CASCADE
 );
 
--- Create conversation table
-CREATE TABLE conversation (
-    conversation_id VARCHAR(255) PRIMARY KEY,
-    image_path VARCHAR(255),
-    text VARCHAR(255),
-    respond TEXT,
-    file_id VARCHAR(255),
-    session_id VARCHAR(255),
-    FOREIGN KEY (file_id) REFERENCES file(file_id) ON DELETE CASCADE
-);
-
--- (Optional) Create session table if needed
-CREATE TABLE session (
-    session_id VARCHAR(255) PRIMARY KEY
-);
-
-ALTER TABLE conversation
-ADD CONSTRAINT fk_session FOREIGN KEY (session_id) REFERENCES session(session_id) ON DELETE CASCADE;
-

@@ -1,6 +1,6 @@
 """ ai chat api """
 from endpoints import app_views
-#from models.connection import obj
+from models.mongodb_connection import session
 from utils.create_jwt_token import verify_jwt
 from flask import jsonify, request, make_response
 from datetime import datetime, timedelta
@@ -53,12 +53,9 @@ def create_new_chat():
         contents=content
     )
 
-    session_id = uuid.uuid4()
-    data["session_id"] = session_id
     data["respond"] = response.text
 
-    obj.create_element("session", {"session_id": session_id})
-    obj.create_element("conversation", data)
-    obj.save_changes()
+    session_id = str(session.insert_one(data).inserted_id)
+
 
     return jsonify({"session_id": session_id, "message": response.text}), 200

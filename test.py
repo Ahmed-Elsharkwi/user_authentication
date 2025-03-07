@@ -12,20 +12,21 @@ def send_get_request(url, cookies):
 def send_post_request(url, post_data, cookies):
     with open('./file.txt', "rb") as f:
         files = {'file': f}
-        response = requests.post(url, files=files, data=post_data, cookies=cookies)
-    """
+
+    
     with open("./test_image.jpg", "rb") as f:
         post_data['image'] = pybase64.b64encode(f.read())
-    """
+        response = requests.post(url, json=post_data, cookies=cookies)
+                
     print(f"Status Code: {response.status_code}")
     print(f"Response Text: {response.text}")
     print(response.cookies)
 
 # Example Usage
 if __name__ == "__main__":
-    url = 'http://127.0.0.1:5000/app/new_file'
+    url = 'http://127.0.0.1:5000/app/new_chat'
     
-    cookies = {'user_token':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNDI1ZWQxYjItM2UwNS00ZjFlLThlMDQtMzUxNTVkMmE4YjA5IiwiZXhwIjoxNzQxMTAyMDQ0LCJyb2xlIjoicGF0aWVudCJ9.jF9pQTjtNShgDo33koJiiPDwyxSnGJJ1a4u-2w_Qk_E'}
+    cookies = {'user_token':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNDI1ZWQxYjItM2UwNS00ZjFlLThlMDQtMzUxNTVkMmE4YjA5IiwiZXhwIjoxNzQxNDE0Mjg5LCJyb2xlIjoicGF0aWVudCJ9.PWMYx4soNT0sC36Ih93JTPDzKaxshcbeI5oRSKC4VfE'}
     # Sending POST request
     print("\nSending POST request...")
     post_data = {
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         "role": "patient"
     }
     conversation = {
-        "text": "hi",
-        "file_id": "381c2b07-2d43-437e-a8aa-04eb1ad069d0"
+        "text": "can you tell me what is in the picture ?",
+        "file_id": "d0f2bf7c-bcd7-404a-8ed3-e7bf139c8fd7"
     }
-    send_post_request(url, post_data, cookies)
+    send_post_request(url, conversation, cookies)
